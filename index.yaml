@@ -1,0 +1,9 @@
+id: github.com/cloud-native-toolkit/terraform-aws-ec2
+name: aws-ec2
+type: terraform
+description: Module to provision ec2 on aws
+tags:
+  - tools
+  - devops
+versions: []
+cloudProvider: aws
