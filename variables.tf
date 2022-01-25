@@ -13,6 +13,7 @@ variable "aws_region" {
 variable "publickey" {
   type    = string
   default = ""
+  description = "EC2 Instance Public Key"
 }
 
 
