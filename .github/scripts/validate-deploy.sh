@@ -1,17 +1,17 @@
 #/bin/bash
 ###Validate EC2 instances provisioned thru TF under SWE VPC
 
-vpcid=$(aws ec2 describe-vpcs --filters 'Name=tag:swe,Values=demo' --query 'Vpcs[].[VpcId]' --output=text)
+vpcid=$(aws ec2 describe-vpcs --filters 'Name=tag:Name,Values=swe-vpc' --query 'Vpcs[].[VpcId]' --output=text)
 echo SWE vpcID is $vpcid
 
-subnetid=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcid" 'Name=tag:swe,Values=demo1' --query 'Subnets[].[SubnetId]' --output=text)
+subnetid=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcid" 'Name=tag:project,Values=swe' --query 'Subnets[].[SubnetId]' --output=text)
 
 echo SWE SubnetIDs are $subnetid
 
 numinst=$(aws ec2 describe-instances --filters "Name=subnet-id,Values=$subnetid"  --query 'Reservations[].Instances[].InstanceId' --output text --no-paginate)
 
 numprovinst=`aws ec2 describe-instance-status --instance-ids $numinst --query 'length(InstanceStatuses)'`
-numreqinst=`aws ec2 describe-instances --filters "Name=subnet-id,Values=subnet-fdbe309b,subnet-c1ba609b" --query 'Reservations[*].Instances[*].[InstanceId]' --output=text | wc -l`
+numreqinst=`aws ec2 describe-instances --filters "Name=subnet-id,Values=subnet-06d0a8066ed3e64d1,subnet-0a350449103177c71" --query 'Reservations[*].Instances[*].[InstanceId]' --output=text | wc -l`
 
 ##########
 
