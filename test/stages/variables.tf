@@ -4,6 +4,12 @@ variable "region" {
   description = "Please set the region where the resouces to be created "
 }
 
+variable "publickey" {
+  type    = string
+  default = ""
+  description = "EC2   Instance Public Key"
+}
+
 variable "access_key" {
   type = string
 }
