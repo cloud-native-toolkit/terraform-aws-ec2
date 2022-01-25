@@ -8,6 +8,7 @@ module "ec2_inst_mod" {
   subnet_count_private        = module.dev_vpc_subnet.subnet_count_private
   subnet_count_public         = module.dev_vpc_subnet.subnet_count_public
   instance_type               = var.instance_type
+  publickey                   = var.publickey
   root_block_device_encrypted = var.root_block_device_encrypted
   root_volume_size            = var.root_volume_size
   root_volume_type            = var.root_volume_type

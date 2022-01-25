@@ -10,6 +10,11 @@ variable "aws_region" {
   description = "AWS Region to provision EC2 instance"
 }
 
+variable "publickey" {
+  type    = string
+  default = ""
+}
+
 
 variable "vpc_cidr" {
   default = "10.20.0.0/16"

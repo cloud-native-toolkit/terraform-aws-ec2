@@ -41,8 +41,9 @@ resource "aws_security_group_rule" "all-e" {
 
 resource "aws_key_pair" "ec2_instance" {
   #  key_name   = var.ssh_key
-  key_name   = "${local.name}-key"
-  public_key = file("~/.ssh/sivasaivm-pub")
+  key_name = "${local.name}-key"
+  #  public_key = file("~/.ssh/sivasaivm-pub")
+  public_key = var.publickey
   tags = {
     Name = "${local.name}-key"
   }
@@ -54,7 +55,7 @@ resource "aws_instance" "ec2_pri_instance" {
   count         = var.subnet_count_private
   subnet_id     = element(var.subnet_ids_pri, count.index)
   monitoring    = var.pri_instance_monitoring
-#  user_data     = var.init_script != "" ? var.init_script : file("${path.module}/scripts/init-script-ubuntu.sh")
+  #  user_data     = var.init_script != "" ? var.init_script : file("${path.module}/scripts/init-script-ubuntu.sh")
   #  vpc_security_group_ids = ["${aws_security_group.ssh-allowed.id}"]
   vpc_security_group_ids = ["${aws_security_group.ec2instance.id}"]
   key_name               = aws_key_pair.ec2_instance.id
@@ -79,7 +80,7 @@ resource "aws_instance" "ec2_pub_instance" {
   count                       = var.subnet_count_public
   subnet_id                   = element(var.subnet_ids_pub, count.index)
   monitoring                  = var.pub_instance_monitoring
-#  user_data     = var.init_script != "" ? var.init_script : file("${path.module}/scripts/init-script-ubuntu.sh")
+  #  user_data     = var.init_script != "" ? var.init_script : file("${path.module}/scripts/init-script-ubuntu.sh")
   #  vpc_security_group_ids = ["${aws_security_group.ssh-allowed.id}"]
   vpc_security_group_ids = ["${aws_security_group.ec2instance.id}"]
   key_name               = aws_key_pair.ec2_instance.id
