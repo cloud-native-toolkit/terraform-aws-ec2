@@ -11,12 +11,12 @@ variable "publickey" {
 }
 
 variable "subnet_ids_pri" {
-  type    = string
+  type    = list
   default = ""
 }
 
 variable "subnet_ids_pub" {
-  type    = string
+  type    = list
   default = ""
 }
 
