@@ -6,5 +6,6 @@ module "dev_vpc" {
   prefix_name      = var.prefix_name
   internal_cidr    = var.internal_cidr
   instance_tenancy = var.instance_tenancy
+  vpc_id = var.vpc_id
 
 }
