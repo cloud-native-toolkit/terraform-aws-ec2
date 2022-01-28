@@ -14,7 +14,7 @@ subnetid=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcid" 'Name=
 
 echo SWE SubnetIDs are $subnetid
 
-numinst=$(aws ec2 describe-instances --filters "Name=subnet-id,Values=$subnetid" 'Name=tag:project,Values=swe' --query 'Reservations[].Instances[].InstanceId' --output text --no-paginate)
+numinst=$(aws ec2 describe-instances --filters "Name=subnet-id,Values=subnet-06d0a8066ed3e64d1,subnet-0a350449103177c71" 'Name=tag:project,Values=swe' --query 'Reservations[].Instances[].InstanceId' --output text --no-paginate)
 
 numprovinst=`aws ec2 describe-instance-status --instance-ids $numinst --query 'length(InstanceStatuses)'`
 numreqinst=`aws ec2 describe-instances --filters "Name=subnet-id,Values=subnet-06d0a8066ed3e64d1,subnet-0a350449103177c71" --query 'Reservations[*].Instances[*].[InstanceId]' --output=text | wc -l`
