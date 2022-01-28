@@ -11,13 +11,13 @@ variable "publickey" {
 }
 
 variable "subnet_ids_pri" {
-  type    = list
-  default = ""
+  type    = list(any)
+  default = [""]
 }
 
 variable "subnet_ids_pub" {
-  type    = list
-  default = ""
+  type    = list(any)
+  default = [""]
 }
 
 variable "access_key" {
