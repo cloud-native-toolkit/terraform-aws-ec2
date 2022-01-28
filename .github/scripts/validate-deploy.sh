@@ -1,6 +1,12 @@
 #/bin/bash
 ###Validate EC2 instances provisioned thru TF under SWE VPC
 
+REGION=$(cat terraform.tfvars | grep -E "^region" | sed "s/region=//g" | sed 's/"//g')
+
+aws configure set region ${REGION}
+aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+
 vpcid=$(aws ec2 describe-vpcs --filters 'Name=tag:Name,Values=swe-vpc' --query 'Vpcs[].[VpcId]' --output=text)
 echo SWE vpcID is $vpcid
 
