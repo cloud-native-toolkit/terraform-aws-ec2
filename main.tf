@@ -69,6 +69,7 @@ resource "aws_instance" "ec2_pri_instance" {
 
   tags = {
     "Name" = "${format("%s-%s-pri-%02s", var.prefix_name, var.label, count.index + 1)}"
+    "project" = "swe"
   }
 }
 
@@ -93,6 +94,7 @@ resource "aws_instance" "ec2_pub_instance" {
   }
   tags = {
     "Name" = "${format("%s-%s-pub-%02s", var.prefix_name, var.label, count.index + 1)}"
+    "project" = "swe"
   }
 
 }
