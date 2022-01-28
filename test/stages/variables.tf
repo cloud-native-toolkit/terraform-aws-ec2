@@ -142,7 +142,7 @@ variable "ami_id" {
 variable "instance_type" {
   type        = string
   description = "EC2 Instance Type 2 default"
-  default     = "t2.small"
+  default     = "t3.large"
 }
 
 

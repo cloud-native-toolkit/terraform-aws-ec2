@@ -102,7 +102,7 @@ variable "subnet_count_public" {
 variable "instance_type" {
   type        = string
   description = "EC2 Instance Type"
-  default     = "t2.small"
+  default     = "t3.large"
 }
 
 variable "vpc_id" {
