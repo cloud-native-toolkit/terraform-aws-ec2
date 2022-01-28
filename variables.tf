@@ -7,7 +7,7 @@
 variable "aws_region" {
   type        = string
   default     = "us-west-1"
-  description = "AWS Region to provision EC2 instance"
+  description = "AWS  Region to provision EC2 instance"
 }
 
 variable "publickey" {
