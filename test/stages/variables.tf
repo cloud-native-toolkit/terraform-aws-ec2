@@ -5,9 +5,19 @@ variable "region" {
 }
 
 variable "publickey" {
+  type        = string
+  default     = ""
+  description = "EC2   Instance Public Key"
+}
+
+variable "subnet_ids_pri" {
   type    = string
   default = ""
-  description = "EC2   Instance Public Key"
+}
+
+variable "subnet_ids_pub" {
+  type    = string
+  default = ""
 }
 
 variable "access_key" {

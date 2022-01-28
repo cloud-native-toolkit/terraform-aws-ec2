@@ -1,12 +1,16 @@
 module "ec2_inst_mod" {
   source = "./module"
   #  depends_on                  = [module.dev_vpc_subnet]
-  vpc_id                      = module.dev_vpc.vpc_id
-  subnet_ids_pri              = module.dev_vpc_subnet.private_subnet_ids
-  subnet_ids_pub              = module.dev_vpc_subnet.public_subnet_ids
-  ami_id                      = var.ami_id
-  subnet_count_private        = module.dev_vpc_subnet.subnet_count_private
-  subnet_count_public         = module.dev_vpc_subnet.subnet_count_public
+  vpc_id = module.dev_vpc.vpc_id
+  #  subnet_ids_pri              = module.dev_vpc_subnet.private_subnet_ids
+  #  subnet_ids_pub              = module.dev_vpc_subnet.public_subnet_ids
+  subnet_ids_pri       = var.subnet_ids_pri
+  subnet_ids_pub       = var.subnet_ids_pub
+  subnet_count_private = 1
+  subnet_count_public  = 1
+  ami_id               = var.ami_id
+  #  subnet_count_private        = module.dev_vpc_subnet.subnet_count_private
+  #  subnet_count_public         = module.dev_vpc_subnet.subnet_count_public
   instance_type               = var.instance_type
   publickey                   = var.publickey
   root_block_device_encrypted = var.root_block_device_encrypted
