@@ -46,7 +46,7 @@ variable "prefix_name" {
 variable "pri_instance_monitoring" {
   type        = bool
   default     = false
-  description = "Enable EC2 private instance advance monitoring"
+  description = "Enable  EC2 private instance advance monitoring"
 }
 
 variable "pub_instance_monitoring" {
