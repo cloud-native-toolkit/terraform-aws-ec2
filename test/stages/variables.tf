@@ -13,7 +13,7 @@ variable "publickey" {
 variable "subnet_ids_pri" {
   type    = list(any)
   default = ["subnet-06d0a8066ed3e64d1"]
-#  default = [""]
+  #  default = [""]
 }
 
 variable "subnet_ids_pub" {
@@ -70,7 +70,7 @@ variable "provision" {
 variable "vpc_id" {
   type        = string
   description = "The id of the existing VPC instance"
-#  default     = ""
+  #  default     = ""
   default = "vpc-04f723f4bca6e8583"
 }
 
@@ -192,7 +192,7 @@ variable "root_iops" {
 
 variable "publicIP" {
   type        = bool
-  default     = true
+  default     = false
   description = "Whether to attach a public IP to EC2 instance"
 }
 

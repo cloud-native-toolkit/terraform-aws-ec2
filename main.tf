@@ -150,12 +150,12 @@ resource "aws_instance" "ec2_pri_instance" {
   #  subnet_id     = element(var.subnet_ids_pri, count.index)
   subnet_id  = element(local.subnet_ids, count.index)
   monitoring = var.pri_instance_monitoring
-  #  user_data     = var.init_script != "" ? var.init_script : file("${path.module}/scripts/init-script-ubuntu.sh")
-   user_data     = var.init_script != "" ? var.init_script : "${file("./scripts/init-script-ubuntu.sh")}"
+  # user_data     = var.init_script != "" ? var.init_script : "${file("./scripts/init-script-ubuntu.sh")}"
+  user_data = var.init_script != "" ? var.init_script : file("${path.module}/scripts/init-script-ubuntu.sh")
   #  vpc_security_group_ids = ["${aws_security_group.ssh-allowed.id}"]
   vpc_security_group_ids = ["${aws_security_group.ec2instance.id}"]
   #  key_name               = aws_key_pair.ec2_instance.id
-  key_name = var.ssh_key
+  key_name                    = var.ssh_key
   associate_public_ip_address = var.publicIP
   root_block_device {
     delete_on_termination = true

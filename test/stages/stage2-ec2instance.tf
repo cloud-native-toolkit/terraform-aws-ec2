@@ -16,5 +16,6 @@ module "ec2_inst_mod" {
   root_block_device_encrypted = var.root_block_device_encrypted
   root_volume_size            = var.root_volume_size
   root_volume_type            = var.root_volume_type
+  associate_public_ip_address = var.publicIP
 }
 

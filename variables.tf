@@ -204,7 +204,7 @@ variable "root_iops" {
 
 variable "publicIP" {
   type        = bool
-  default     = true
+  default     = false
   description = "Whether to attach a public IP to EC2 instance"
 }
 
