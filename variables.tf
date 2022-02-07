@@ -1,18 +1,59 @@
-#variable "myvariable" {
-#  type        = string
-#  description = "A description of my variable"
-#  default     = ""
-#}
-
-variable "aws_region" {
+variable "region" {
   type        = string
-  default     = "us-west-1"
+  default     = "ap-south-1"
   description = "AWS  Region to provision EC2 instance"
 }
 
-variable "publickey" {
+variable "allow_ssh_from" {
+  type        = list(any)
+  description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
+  default     = ["0.0.0.0/0"]
+}
+
+variable "allow_acl_from" {
+  #  type        = list(any)
+  type        = string
+  description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
+  #  default     = ["0.0.0.0/0"]
+  default = "0.0.0.0/0"
+
+}
+
+variable "init_script" {
+  type        = string
+  default     = ""
+  description = "User data to provide when launching the instance."
+}
+
+variable "base_security_group" {
+  type        = string
+  description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
+  default     = null
+  #  default = "sg-05637f6e2caa0bef0"
+}
+
+variable "base_acl_group" {
+  type        = string
+  description = "ID of the base ACL to use for the ec2 instance. If not provided a new ACL  will be created."
+  default     = null
+  #  default = "acl-00ce85aac32da9dae"
+}
+
+
+variable "access_key" {
   type    = string
   default = ""
+}
+
+variable "secret_key" {
+  type    = string
+  default = ""
+}
+
+
+variable "publickey" {
+  type        = string
+  default     = ""
   description = "EC2 Instance Public Key"
 }
 
@@ -29,12 +70,14 @@ variable "subnet_cidr" {
 
 variable "subnet_ids_pri" {
   type    = list(any)
-  default = [""]
+  default = ["subnet-06d0a8066ed3e64d1"]
+  #  default = [""]
 }
 
 variable "subnet_ids_pub" {
   type    = list(any)
-  default = [""]
+  default = ["subnet-0a350449103177c71"]
+  #  default = [""]
 }
 
 variable "prefix_name" {
@@ -78,8 +121,9 @@ variable "azs" {
 }
 
 variable "ssh_key" {
-  type        = string
-  default     = "fss-key"
+  type = string
+  #  default     = "fss-key"
+  default     = "sivasaivm-pub"
   description = "AWS EC2 Instance Public Key"
 }
 
@@ -97,6 +141,21 @@ variable "subnet_count_private" {
 variable "subnet_count_public" {
   type    = string
   default = ""
+}
+
+variable "public_key" {
+  type    = string
+  default = ""
+}
+
+variable "private_key" {
+  type    = string
+  default = ""
+}
+
+variable "rsa_bits" {
+  type    = number
+  default = 4096
 }
 
 variable "instance_type" {
@@ -166,24 +225,31 @@ variable "security_groups" {
   default     = []
 }
 
-
 variable "security_group_rules" {
-  type = list(any)
-  default = [
-    {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 65535
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Allow all outbound traffic"
-    }
-  ]
-  description = <<-EOT
-    A list of maps of Security Group rules. 
-    The values of map is fully complated with `aws_security_group_rule` resource. 
-    To get more info see https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule .
-  EOT
+  type = list(object({
+    name        = string,
+    type        = string,
+    protocol    = string,
+    from_port   = number,
+    to_port     = number,
+    cidr_blocks = optional(string),
+    ip_version  = optional(string),
+  }))
+  description = "List of security group rules to set on the bastion security group in addition to the SSH rules"
+  default     = []
 }
 
 
+variable "acl_group_rules" {
+  type = list(object({
+    rule_number = number,
+    egress      = bool,
+    protocol    = string,
+    rule_action = string,
+    cidr_block  = optional(string),
+    from_port   = number,
+    to_port     = number,
+  }))
+  description = "List of security group rules to set on the bastion security group in addition to the SSH rules"
+  default     = []
+}

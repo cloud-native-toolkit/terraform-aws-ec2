@@ -1,6 +1,6 @@
 variable "region" {
   type        = string
-  default     = "us-west-1"
+  default     = "ap-south-1"
   description = "Please set the region where the resouces to be created "
 }
 
@@ -12,7 +12,8 @@ variable "publickey" {
 
 variable "subnet_ids_pri" {
   type    = list(any)
-  default = [""]
+  default = ["subnet-06d0a8066ed3e64d1"]
+#  default = [""]
 }
 
 variable "subnet_ids_pub" {
@@ -69,7 +70,8 @@ variable "provision" {
 variable "vpc_id" {
   type        = string
   description = "The id of the existing VPC instance"
-  default     = ""
+#  default     = ""
+  default = "vpc-04f723f4bca6e8583"
 }
 
 variable "private_subnet_cidr" {
