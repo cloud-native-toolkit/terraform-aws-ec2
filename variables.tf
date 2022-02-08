@@ -121,9 +121,9 @@ variable "azs" {
 }
 
 variable "ssh_key" {
-  type = string
-  #  default     = "fss-key"
-  default     = "sivasaivm-pub"
+  type    = string
+  default = ""
+  #  default     = "sivasaivm-pub"
   description = "AWS EC2 Instance Public Key"
 }
 
@@ -195,12 +195,6 @@ variable "root_block_device_encrypted" {
   description = "Whether to encrypt the root block device"
 }
 
-
-variable "root_iops" {
-  type        = number
-  description = "Amount of provisioned IOPS. This must be set if root_volume_type is set to `io1`"
-  default     = 0
-}
 
 variable "publicIP" {
   type        = bool

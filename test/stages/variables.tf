@@ -4,56 +4,58 @@ variable "region" {
   description = "Please set the region where the resouces to be created "
 }
 
-variable "publickey" {
+### var used by SSH Module ####start
+
+variable "private_key_file" {
+  type    = string
+  default = ""
+}
+
+variable "private_key" {
+  type    = string
+  default = ""
+}
+
+variable "public_key_file" {
+  type    = string
+  default = ""
+}
+
+variable "public_key" {
+  type    = string
+  default = ""
+}
+
+variable "rsa_bits" {
+  type    = number
+  default = 3072
+}
+
+variable "name" {
+  type    = string
+  default = ""
+}
+
+variable "label" {
+  default = "prd"
+  type    = string
+}
+
+variable "name_prefix" {
   type        = string
-  default     = ""
-  description = "EC2   Instance Public Key"
-}
-
-variable "subnet_ids_pri" {
-  type    = list(any)
-  default = ["subnet-06d0a8066ed3e64d1"]
-  #  default = [""]
-}
-
-variable "subnet_ids_pub" {
-  type    = list(any)
-  default = [""]
-}
-
-variable "access_key" {
-  type = string
-}
-variable "secret_key" {
-  type = string
-}
-
-/*
-variable "vpc_subnet_count" {
-  type        = number
-  description = "Number of vpc subnets"
-}
-
-variable "vpc_subnets" {
-  type        = list(object({
-    label = string
-    id    = string
-    zone  = string
-  }))
-  description = "List of subnets with labels"
-}
-
-*/
-
-variable "prefix_name" {
-  type        = string
-  description = "Prefix to be added to the names of resources which are being provisioned"
   default     = "swe"
+  description = "name prefix"
 }
-variable "instance_tenancy" {
-  type        = string
-  description = "Instance is shared / dedicated, etc. #[default, dedicated, host]"
-  default     = "default"
+
+
+###var used by SSH Module ###end
+
+###var used by VPC Module ###start
+
+variable "provision" {
+  type        = bool
+  description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
+  default     = false
 }
 
 variable "internal_cidr" {
@@ -62,17 +64,25 @@ variable "internal_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "provision" {
-  type        = bool
-  description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
-  default     = false
+variable "instance_tenancy" {
+  type        = string
+  description = "Instance is shared / dedicated, etc. #[default, dedicated, host]"
+  default     = "default"
 }
+
+#used by VPC,Subnet & EC2 Module #
 variable "vpc_id" {
   type        = string
   description = "The id of the existing VPC instance"
   #  default     = ""
   default = "vpc-04f723f4bca6e8583"
 }
+
+
+###var used by VPC Module ###end
+
+###var used by Subenet Module ###start
+
 
 variable "private_subnet_cidr" {
   type        = list(string)
@@ -86,6 +96,11 @@ variable "public_subnet_cidr" {
   default     = ["10.0.0.0/20"]
 }
 
+variable "availability_zones" {
+  description = "List of availability zone ids"
+  type        = list(string)
+  default     = [""]
+}
 
 variable "tags" {
   type = map(string)
@@ -111,11 +126,110 @@ variable "private_subnet_tags" {
   }
 }
 
-variable "availability_zones" {
-  description = "List of availability zone ids"
-  type        = list(string)
-  default     = [""]
+
+###var used by Subenet Module ###end
+
+###var used by EC2 module ###start
+
+variable "subnet_ids_pri" {
+  type    = list(any)
+  default = ["subnet-06d0a8066ed3e64d1"]
+  #  default = [""]
 }
+
+variable "subnet_ids_pub" {
+  type    = list(any)
+  default = ["subnet-0a350449103177c71"]
+  #  default = [""]
+}
+
+variable "ami_id" {
+  type        = string
+  description = "AMI ID for bastion host"
+  default     = "ami-03fa4afc89e4a8a09"
+}
+
+variable "instance_type" {
+  type        = string
+  description = "EC2 Instance Type 2 default"
+  default     = "t3.large"
+}
+
+variable "publickey" {
+  type        = string
+  default     = ""
+  description = "EC2   Instance Public Key"
+}
+
+variable "root_block_device_encrypted" {
+  type        = bool
+  default     = true
+  description = "Whether to encrypt the root block device"
+}
+
+variable "root_volume_size" {
+  type        = number
+  description = "Size of the root volume in gigabytes"
+  default     = 10
+}
+
+
+variable "root_volume_type" {
+  type        = string
+  description = "Type of root volume. Can be standard, gp2 or io1"
+  default     = "gp2"
+}
+
+variable "publicIP" {
+  type        = bool
+  default     = false
+  description = "Whether to attach a public IP to EC2 instance"
+}
+
+variable "ssh_key" {
+  type    = string
+  default = ""
+  #  default     = "sivasaivm-pub"
+  description = "AWS EC2 Instance Public Key"
+}
+
+
+###var used by EC2 module ###end
+
+
+variable "access_key" {
+  type = string
+}
+variable "secret_key" {
+  type = string
+}
+
+/*
+variable "vpc_subnet_count" {
+  type        = number
+  description = "Number of vpc subnets"
+}
+
+variable "vpc_subnets" {
+  type        = list(object({
+    label = string
+    id    = string
+    zone  = string
+  }))
+  description = "List of subnets with labels"
+}
+
+*/
+###var Used by SSH,VPC, module  ###start
+
+variable "prefix_name" {
+  type        = string
+  description = "Prefix to be added to the names of resources which are being provisioned"
+  default     = "swe"
+}
+
+
+###var Used by SSH, module###end
 
 
 #From ec2insatnce script
@@ -132,68 +246,6 @@ variable "vpc_cidr" {
 variable "subnet_cidr" {
   type    = list(any)
   default = ["10.20.1.0/24", "10.20.2.0/24"]
-}
-
-variable "azs" {
-  type    = list(any)
-  default = ["us-west-1a", "us-west-1c"]
-}
-
-variable "ssh_key" {
-  type        = string
-  default     = "fss-key"
-  description = "AWS EC2 Instance Public Key"
-}
-
-variable "ami_id" {
-  type        = string
-  description = "AMI ID for bastion host"
-  default     = "ami-03fa4afc89e4a8a09"
-}
-
-variable "instance_type" {
-  type        = string
-  description = "EC2 Instance Type 2 default"
-  default     = "t3.large"
-}
-
-
-variable "label" {
-  type        = string
-  description = "The label for the server instance"
-  default     = "server"
-}
-
-
-variable "root_volume_type" {
-  type        = string
-  description = "Type of root volume. Can be standard, gp2 or io1"
-  default     = "gp2"
-}
-
-variable "root_volume_size" {
-  type        = number
-  description = "Size of the root volume in gigabytes"
-  default     = 10
-}
-
-variable "root_block_device_encrypted" {
-  type        = bool
-  default     = true
-  description = "Whether to encrypt the root block device"
-}
-
-
-variable "root_iops" {
-  type        = number
-  description = "Amount of provisioned IOPS. This must be set if root_volume_type is set to `io1`"
-  default     = 0
-}
-
-variable "publicIP" {
-  type        = bool
-  default     = false
-  description = "Whether to attach a public IP to EC2 instance"
 }
 
 variable "cidr_blocks" {
@@ -213,30 +265,3 @@ variable "security_groups" {
   default     = []
 }
 
-
-variable "security_group_rules" {
-  type = list(any)
-  default = [
-    {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 65535
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Allow all outbound traffic"
-    }
-  ]
-  description = <<-EOT
-    A list of maps of Security Group rules. 
-    The values of map is fully complated with `aws_security_group_rule` resource. 
-    To get more info see https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule .
-  EOT
-}
-
-/*
-variable "vpc_id" {
-  type        = string
-  description = "Enter  vpc ID"
-}
-
-*/
