@@ -1,9 +1,15 @@
+!!map
 id: github.com/cloud-native-toolkit/terraform-aws-ec2
-name: aws-ec2
+name: "aws-ec2-insatnce"
 type: terraform
 description: Module to provision ec2 on aws
 tags:
-  - tools
-  - devops
-versions: []
-cloudProvider: aws
+  - infrastructure
+versions:
+  - platforms: []
+    providers:
+      - name: aws
+        source: "hashicorp/aws"
+    dependencies: []
+    variables: [{name: region, type: string, description: AWS  Region to provision EC2 instance, default: ap-south-1}, {name: allow_ssh_from, type: list(any), description: 'An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server', default: [0.0.0.0/0]}, {name: allow_acl_from, type: string, description: 'An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server', default: 0.0.0.0/0}, {name: init_script, type: string, description: User data to provide when launching the instance., default: ""}, {name: base_security_group, type: string, description: ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created., default: null}, {name: base_acl_group, type: string, description: ID of the base ACL to use for the ec2 instance. If not provided a new ACL  will be created., default: null}, {name: access_key}]
+    version: v1.0.0
