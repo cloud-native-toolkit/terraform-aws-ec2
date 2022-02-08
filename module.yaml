@@ -1,11 +1,12 @@
-name: aws-ec2
+name: "aws-ec2-insatnce"
 type: terraform
 description: Module to provision ec2 on aws
 tags:
-  - tools
-  - devops
+  - infrastructure
 versions:
   - platforms: []
+    providers:
+     - name: aws
+       source: "hashicorp/aws"
     dependencies: []
     variables: []
-cloudProvider: aws
