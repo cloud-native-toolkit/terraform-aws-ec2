@@ -1,7 +1,7 @@
 /*
-module "dev_vpc_subnet" {
+module "subnets" {
   source                          = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets"
-  vpc_id                          = module.dev_vpc.vpc_id
+  vpc_id                          = module.vpc.vpc_id
   private_subnet_cidr             = var.private_subnet_cidr
   public_subnet_cidr              = var.public_subnet_cidr
   availability_zones              = var.availability_zones

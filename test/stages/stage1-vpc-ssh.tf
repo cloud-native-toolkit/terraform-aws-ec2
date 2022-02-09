@@ -1,4 +1,4 @@
-module "ssh_key_swe" {
+module "vpcssh" {
   source = "github.com/cloud-native-toolkit/terraform-aws-ssh-key"
 
   private_key_file = var.private_key_file

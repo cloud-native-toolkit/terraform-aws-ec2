@@ -1,4 +1,4 @@
-module "dev_vpc" {
+module "vpc" {
   source    = "github.com/cloud-native-toolkit/terraform-aws-vpc"
   provision = var.provision
 
