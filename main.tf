@@ -2,6 +2,7 @@ locals {
   name                = "${replace(var.vpc_id, "/[^a-zA-Z0-9_\\-\\.]/", "")}-${var.label}"
   subnet_ids          = concat(var.subnet_ids_pri, var.subnet_ids_pub)
   sunet_len           = length(local.subnet_ids)
+#  sunet_len          = var.subnet_count_private+var.subnet_count_public
   base_security_group = var.base_security_group != null ? var.base_security_group : data.aws_security_group.newsg.id
   ssh_security_group_rule = var.allow_ssh_from != "" ? [{
     name        = "ssh-i"
@@ -100,7 +101,6 @@ resource "aws_network_acl_rule" "addACLrule" {
 }
 
 resource "aws_instance" "ec2_pri_instance" {
-#  depends_on    = [module.ssh_key_swe]
   ami           = var.ami_id
   instance_type = var.instance_type
   #  count         = var.subnet_count_private

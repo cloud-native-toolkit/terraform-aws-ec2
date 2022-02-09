@@ -1,22 +1,21 @@
-module "ec2_inst_mod" {
+module "ec2" {
   source = "./module"
-  #  depends_on                  = [module.ssh_key_swe]
-  vpc_id = module.dev_vpc.vpc_id
-  #  subnet_ids_pri              = module.dev_vpc_subnet.private_subnet_ids
-  #  subnet_ids_pub              = module.dev_vpc_subnet.public_subnet_ids
+  vpc_id = module.vpc.vpc_id
+  #  subnet_ids_pri              = module.subnets.private_subnet_ids
+  #  subnet_ids_pub              = module.subnets.public_subnet_ids
   subnet_ids_pri       = var.subnet_ids_pri
   subnet_ids_pub       = var.subnet_ids_pub
   subnet_count_private = 1
   subnet_count_public  = 1
   ami_id               = var.ami_id
-  #  subnet_count_private        = module.dev_vpc_subnet.subnet_count_private
-  #  subnet_count_public         = module.dev_vpc_subnet.subnet_count_public
+  #  subnet_count_private        = module.subnets.subnet_count_private
+  #  subnet_count_public         = module.subnets.subnet_count_public
   instance_type               = var.instance_type
   publickey                   = var.publickey
   root_block_device_encrypted = var.root_block_device_encrypted
   root_volume_size            = var.root_volume_size
   root_volume_type            = var.root_volume_type
   publicIP                    = var.publicIP
-  ssh_key                     = module.ssh_key_swe.swesshkeyname
+  ssh_key                     = module.vpcssh.swesshkeyname
 }
 

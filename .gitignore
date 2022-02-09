@@ -10,3 +10,8 @@ test/stages/.terraform
 test/stages/terraform.tfstate
 test/stages/terraform.tfstate.backup
 test/stages/terraform.tfvars
+swe-pri-key
+swe-pub-key
+test/stages/swe-pri-key
+test/stages/swe-pub-key
+
