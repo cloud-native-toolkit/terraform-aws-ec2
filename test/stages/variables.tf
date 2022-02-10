@@ -133,20 +133,18 @@ variable "private_subnet_tags" {
 
 variable "subnet_ids_pri" {
   type    = list(any)
-  default = ["subnet-06d0a8066ed3e64d1"]
-  #  default = [""]
+  default = [""]
 }
 
 variable "subnet_ids_pub" {
   type    = list(any)
-  default = ["subnet-0a350449103177c71"]
-  #  default = [""]
+  default = [""]
 }
 
 variable "ami_id" {
   type        = string
   description = "AMI ID for bastion host"
-  default     = "ami-03fa4afc89e4a8a09"
+  default     = "ami-0573b70afecda915d"
 }
 
 variable "instance_type" {
@@ -204,22 +202,6 @@ variable "secret_key" {
   type = string
 }
 
-/*
-variable "vpc_subnet_count" {
-  type        = number
-  description = "Number of vpc subnets"
-}
-
-variable "vpc_subnets" {
-  type        = list(object({
-    label = string
-    id    = string
-    zone  = string
-  }))
-  description = "List of subnets with labels"
-}
-
-*/
 ###var Used by SSH,VPC, module  ###start
 
 variable "prefix_name" {
@@ -254,10 +236,7 @@ variable "cidr_blocks" {
   description = "SG CIDR"
 }
 
-
 ######Other options which can be used###
-
-
 
 variable "security_groups" {
   description = "A list of Security Group IDs to associate with EC2 instance."

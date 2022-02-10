@@ -16,7 +16,6 @@ variable "allow_acl_from" {
   description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
   #  default     = ["0.0.0.0/0"]
   default = "0.0.0.0/0"
-
 }
 
 variable "init_script" {
@@ -70,14 +69,12 @@ variable "subnet_cidr" {
 
 variable "subnet_ids_pri" {
   type    = list(any)
-  default = ["subnet-06d0a8066ed3e64d1"]
-  #  default = [""]
+  default = [""]
 }
 
 variable "subnet_ids_pub" {
   type    = list(any)
-  default = ["subnet-0a350449103177c71"]
-  #  default = [""]
+  default = [""]
 }
 
 variable "prefix_name" {
@@ -98,22 +95,6 @@ variable "pub_instance_monitoring" {
   description = "Enable EC2 public instance advance monitoring"
 }
 
-/*
-variable "vpc_subnet_count" {
-  type        = number
-  description = "Number of vpc subnets"
-}
-
-variable "vpc_subnets" {
-  type = list(object({
-    label = string
-    id    = string
-    zone  = string
-  }))
-  description = "List of subnets with labels"
-}
-
-*/
 
 variable "azs" {
   type    = list(any)
@@ -130,17 +111,18 @@ variable "ssh_key" {
 variable "ami_id" {
   type        = string
   description = "AMI ID for bastion host"
-  default     = "ami-03fa4afc89e4a8a09"
+  #  default     = "ami-03fa4afc89e4a8a09"
+  default = "ami-0573b70afecda915d"
 }
 
 variable "subnet_count_private" {
-  type    = string
-  default = ""
+  type    = number
+  default = 0
 }
 
 variable "subnet_count_public" {
-  type    = string
-  default = ""
+  type    = number
+  default = 0
 }
 
 variable "public_key" {
@@ -164,9 +146,12 @@ variable "instance_type" {
   default     = "t3.large"
 }
 
+#used by VPC,Subnet & EC2 Module #
 variable "vpc_id" {
   type        = string
-  description = "Enter  vpc ID"
+  description = "The id of the existing VPC instance"
+  default     = ""
+  #  default = "vpc-04f723f4bca6e8583"
 }
 
 
@@ -210,8 +195,6 @@ variable "cidr_blocks" {
 
 
 ######Other options which can be used###
-
-
 
 variable "security_groups" {
   description = "A list of Security Group IDs to associate with EC2 instance."

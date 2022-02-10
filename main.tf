@@ -1,8 +1,8 @@
 locals {
-  name                = "${replace(var.vpc_id, "/[^a-zA-Z0-9_\\-\\.]/", "")}-${var.label}"
-  subnet_ids          = concat(var.subnet_ids_pri, var.subnet_ids_pub)
-  sunet_len           = length(local.subnet_ids)
-#  sunet_len          = var.subnet_count_private+var.subnet_count_public
+  name       = "${replace(var.vpc_id, "/[^a-zA-Z0-9_\\-\\.]/", "")}-${var.label}"
+  subnet_ids = concat(var.subnet_ids_pri, var.subnet_ids_pub)
+  #  sunet_len           = length(local.subnet_ids)
+  sunet_len           = var.subnet_count_private + var.subnet_count_public
   base_security_group = var.base_security_group != null ? var.base_security_group : data.aws_security_group.newsg.id
   ssh_security_group_rule = var.allow_ssh_from != "" ? [{
     name        = "ssh-i"
@@ -40,10 +40,6 @@ locals {
     to_port     = 22
   }] : []
   acl_group_rules = concat(local.acl_group_rule, var.acl_group_rules)
-}
-
-data "aws_vpc" "vpc" {
-  id = var.vpc_id
 }
 
 
@@ -101,18 +97,13 @@ resource "aws_network_acl_rule" "addACLrule" {
 }
 
 resource "aws_instance" "ec2_pri_instance" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  #  count         = var.subnet_count_private
-  count = local.sunet_len
-  #  subnet_id     = element(var.subnet_ids_pri, count.index)
-  subnet_id  = element(local.subnet_ids, count.index)
-  monitoring = var.pri_instance_monitoring
-  # user_data     = var.init_script != "" ? var.init_script : "${file("./scripts/init-script-ubuntu.sh")}"
-  user_data = var.init_script != "" ? var.init_script : file("${path.module}/scripts/init-script-ubuntu.sh")
-  #  vpc_security_group_ids = ["${aws_security_group.ssh-allowed.id}"]
-  vpc_security_group_ids = ["${aws_security_group.ec2instance.id}"]
-  #  key_name               = aws_key_pair.ec2_instance.id
+  ami                         = var.ami_id
+  instance_type               = var.instance_type
+  count                       = local.sunet_len
+  subnet_id                   = element(local.subnet_ids, count.index)
+  monitoring                  = var.pri_instance_monitoring
+  user_data                   = var.init_script != "" ? var.init_script : file("${path.module}/scripts/init-script-ubuntu.sh")
+  vpc_security_group_ids      = ["${aws_security_group.ec2instance.id}"]
   key_name                    = var.ssh_key
   associate_public_ip_address = var.publicIP
   root_block_device {
