@@ -45,7 +45,7 @@ locals {
 
 resource "aws_security_group" "ec2instance" {
   name   = "${var.prefix_name}-inst-sg-group"
-  vpc_id = data.aws_vpc.vpc.id
+  vpc_id = var.vpc_id
 
   tags = {
     Name = "${var.prefix_name}-inst-sg-group"
@@ -60,7 +60,7 @@ data "aws_security_group" "newsg" {
 
 resource "aws_network_acl" "ec2acl" {
   #  name   = "${var.prefix_name}-inst-acl-group"
-  vpc_id = data.aws_vpc.vpc.id
+  vpc_id = var.vpc_id
 
   tags = {
     Name = "${var.prefix_name}-inst-acl-group"
