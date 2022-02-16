@@ -17,5 +17,6 @@ module "ec2" {
   root_volume_type            = var.root_volume_type
   publicIP                    = var.publicIP
   ssh_key                     = module.vpcssh.swesshkeyname
+  kms_key_id                  = module.kms.key_arn
 }
 

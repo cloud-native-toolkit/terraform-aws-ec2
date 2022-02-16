@@ -1,6 +1,6 @@
 variable "region" {
   type        = string
-  default     = "ap-south-1"
+  default     = "us-west-1"
   description = "AWS  Region to provision EC2 instance"
 }
 
@@ -81,6 +81,12 @@ variable "prefix_name" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
   default     = "swe"
+}
+
+variable "kms_key_id" {
+  type        = string
+  description = "KMS ID"
+  default     = ""
 }
 
 variable "pri_instance_monitoring" {

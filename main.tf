@@ -109,9 +109,9 @@ resource "aws_instance" "ec2_pri_instance" {
   root_block_device {
     delete_on_termination = true
     encrypted             = var.root_block_device_encrypted
-    #     kms_key_id            = <Amazon Resource Name (ARN) of the KMS Key to use>
-    volume_size = var.root_volume_size
-    volume_type = var.root_volume_type
+    kms_key_id            = var.kms_key_id
+    volume_size           = var.root_volume_size
+    volume_type           = var.root_volume_type
   }
 
   tags = {
