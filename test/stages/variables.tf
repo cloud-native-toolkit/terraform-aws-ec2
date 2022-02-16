@@ -55,7 +55,7 @@ variable "name_prefix" {
 variable "provision" {
   type        = bool
   description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
-  default     = false
+  default     = truee
 }
 
 variable "internal_cidr" {
