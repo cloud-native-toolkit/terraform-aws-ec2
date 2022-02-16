@@ -1,6 +1,6 @@
 variable "region" {
   type        = string
-  default     = "us-west-1"
+  default     = ""
   description = "Please set the region where the resouces to be created "
 }
 
