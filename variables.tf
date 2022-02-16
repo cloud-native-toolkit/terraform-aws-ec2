@@ -117,8 +117,8 @@ variable "ssh_key" {
 variable "ami_id" {
   type        = string
   description = "AMI ID for bastion host"
-  #  default     = "ami-03fa4afc89e4a8a09"
-  default = "ami-0573b70afecda915d"
+  default     = "ami-03fa4afc89e4a8a09"
+  #  default = "ami-0573b70afecda915d"
 }
 
 variable "subnet_count_private" {
