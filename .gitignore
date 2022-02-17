@@ -14,4 +14,4 @@ swe-pri-key
 swe-pub-key
 test/stages/swe-pri-key
 test/stages/swe-pub-key
-
+test/stages/validate-deploy.sh
