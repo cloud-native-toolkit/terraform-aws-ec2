@@ -1,4 +1,3 @@
-/*
 module "subnets" {
   source                          = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets"
   vpc_id                          = module.vpc.vpc_id
@@ -12,4 +11,3 @@ module "subnets" {
   private_subnet_tags             = var.private_subnet_tags
 
 }
-*/

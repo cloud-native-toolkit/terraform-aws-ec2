@@ -1,6 +1,6 @@
 variable "region" {
   type        = string
-  default     = "ap-south-1"
+  default     = ""
   description = "Please set the region where the resouces to be created "
 }
 
@@ -55,7 +55,7 @@ variable "name_prefix" {
 variable "provision" {
   type        = bool
   description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
-  default     = false
+  default     = true
 }
 
 variable "internal_cidr" {
@@ -133,20 +133,19 @@ variable "private_subnet_tags" {
 
 variable "subnet_ids_pri" {
   type    = list(any)
-  default = ["subnet-06d0a8066ed3e64d1"]
-  #  default = [""]
+  default = [""]
 }
 
 variable "subnet_ids_pub" {
   type    = list(any)
-  default = ["subnet-0a350449103177c71"]
-  #  default = [""]
+  default = [""]
 }
 
 variable "ami_id" {
   type        = string
   description = "AMI ID for bastion host"
   default     = "ami-03fa4afc89e4a8a09"
+  #  default     = "ami-0573b70afecda915d"
 }
 
 variable "instance_type" {
@@ -196,6 +195,42 @@ variable "ssh_key" {
 
 ###var used by EC2 module ###end
 
+###var for KMS module ###start
+
+variable "key_spec" {
+  type        = string
+  default     = "SYMMETRIC_DEFAULT"
+  description = "Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC_DEFAULT, RSA_2048, RSA_3072, RSA_4096, ECC_NIST_P256, ECC_NIST_P384, ECC_NIST_P521, or ECC_SECG_P256K1"
+}
+
+variable "rotation_enabled" {
+  type        = bool
+  default     = true
+  description = "Specifies whether key rotation is enabled."
+}
+
+variable "enabled" {
+  type        = bool
+  default     = true
+  description = "Specifies whether the key is enabled."
+}
+
+variable "alias" {
+  type        = string
+  default     = "Storage-kms"
+  description = "The display name of the key."
+}
+
+
+variable "kms_alias" {
+  type        = string
+  default     = "Storage-kms"
+  description = "The description of the key alias as viewed in AWS console."
+}
+
+
+###var for KMS module ###end
+
 
 variable "access_key" {
   type = string
@@ -204,22 +239,6 @@ variable "secret_key" {
   type = string
 }
 
-/*
-variable "vpc_subnet_count" {
-  type        = number
-  description = "Number of vpc subnets"
-}
-
-variable "vpc_subnets" {
-  type        = list(object({
-    label = string
-    id    = string
-    zone  = string
-  }))
-  description = "List of subnets with labels"
-}
-
-*/
 ###var Used by SSH,VPC, module  ###start
 
 variable "prefix_name" {
@@ -254,10 +273,7 @@ variable "cidr_blocks" {
   description = "SG CIDR"
 }
 
-
 ######Other options which can be used###
-
-
 
 variable "security_groups" {
   description = "A list of Security Group IDs to associate with EC2 instance."

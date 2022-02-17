@@ -1,6 +1,9 @@
 #/bin/bash
+SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
+echo "SCRIPT_DIR: ${SCRIPT_DIR}"
+#vpcid=$(aws ec2 describe-vpcs --filters 'Name=tag:project,Values=swe' --query 'Vpcs[].[VpcId]' --output=text)
+export vpcid=$(terraform output -json | jq -r '."vpc_id".value')
 
-vpcid=$(aws ec2 describe-vpcs --filters 'Name=tag:project,Values=swe' --query 'Vpcs[].[VpcId]' --output=text)
 echo SWE vpcID is $vpcid
 
 subnetid=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcid" 'Name=tag:project,Values=swe' --query 'Subnets[].[SubnetId]' --output=text)
