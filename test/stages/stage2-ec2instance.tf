@@ -18,6 +18,5 @@ module "ec2" {
   publicIP                    = var.publicIP
   ssh_key                     = module.vpcssh.swesshkeyname
   kms_key_id                  = module.kms.key_arn
-  region                      = var.region
 }
 

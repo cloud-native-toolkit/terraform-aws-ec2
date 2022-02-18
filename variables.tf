@@ -1,9 +1,3 @@
-variable "region" {
-  type        = string
-  default     = ""
-  description = "AWS  Region to provision EC2 instance"
-}
-
 variable "allow_ssh_from" {
   type        = list(any)
   description = "An IP address,  a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
@@ -28,14 +22,12 @@ variable "base_security_group" {
   type        = string
   description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
   default     = null
-  #  default = "sg-05637f6e2caa0bef0"
 }
 
 variable "base_acl_group" {
   type        = string
   description = "ID of the base ACL to use for the ec2 instance. If not provided a new ACL  will be created."
   default     = null
-  #  default = "acl-00ce85aac32da9dae"
 }
 
 
@@ -157,7 +149,6 @@ variable "vpc_id" {
   type        = string
   description = "The id of the existing VPC instance"
   default     = ""
-  #  default = "vpc-04f723f4bca6e8583"
 }
 
 

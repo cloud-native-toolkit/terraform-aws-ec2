@@ -10,6 +10,5 @@ module "vpcssh" {
   name             = var.name
   label            = var.label
   name_prefix      = var.name_prefix
-  region           = var.region
 
 }
