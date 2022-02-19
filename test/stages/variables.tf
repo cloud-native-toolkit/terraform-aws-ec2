@@ -74,8 +74,7 @@ variable "instance_tenancy" {
 variable "vpc_id" {
   type        = string
   description = "The id of the existing VPC instance"
-  #  default     = ""
-  default = "vpc-04f723f4bca6e8583"
+  default     = ""
 }
 
 
@@ -186,9 +185,8 @@ variable "publicIP" {
 }
 
 variable "ssh_key" {
-  type    = string
-  default = ""
-  #  default     = "sivasaivm-pub"
+  type        = string
+  default     = ""
   description = "AWS EC2 Instance Public Key"
 }
 
@@ -254,7 +252,7 @@ variable "prefix_name" {
 #From ec2insatnce script
 variable "aws_region" {
   type        = string
-  default     = "us-west-1"
+  default     = ""
   description = "AWS Region to provision EC2 instance"
 }
 
