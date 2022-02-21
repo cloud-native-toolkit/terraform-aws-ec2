@@ -96,7 +96,7 @@ resource "aws_network_acl_rule" "addACLrule" {
 
 }
 
-resource "aws_instance" "ec2_pri_instance" {
+resource "aws_instance" "ec2_instance" {
   ami                         = var.ami_id
   instance_type               = var.instance_type
   count                       = local.sunet_len

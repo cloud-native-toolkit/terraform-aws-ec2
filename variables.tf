@@ -69,12 +69,12 @@ variable "subnet_cidr" {
 
 variable "subnet_ids_pri" {
   type    = list(any)
-  default = [""]
+  default = []
 }
 
 variable "subnet_ids_pub" {
   type    = list(any)
-  default = [""]
+  default = []
 }
 
 variable "prefix_name" {
