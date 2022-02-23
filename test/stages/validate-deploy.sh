@@ -2,7 +2,19 @@
 SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
 echo "SCRIPT_DIR: ${SCRIPT_DIR}"
 #vpcid=$(aws ec2 describe-vpcs --filters 'Name=tag:project,Values=swe' --query 'Vpcs[].[VpcId]' --output=text)
+
+
+
 export vpcid=$(terraform output -json | jq -r '."vpc_id".value')
+REGION=$(cat terraform.tfvars | grep -E "^region" | sed "s/region=//g" | sed 's/"//g')
+
+echo "VPC_ID: ${vpcid}"
+echo "REGION: ${REGION}"
+
+aws configure set region ${REGION}
+aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+
 
 echo SWE vpcID is $vpcid
 

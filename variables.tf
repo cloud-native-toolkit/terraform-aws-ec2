@@ -1,7 +1,9 @@
+
 variable "allow_ssh_from" {
   type        = list(any)
   description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
   default     = ["0.0.0.0/0"]
+  #   default     = []
 }
 
 variable "allow_acl_from" {
@@ -23,6 +25,15 @@ variable "base_security_group" {
   description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
   default     = null
 }
+
+variable "defacl_id" {
+  type        = string
+  description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
+  default     = ""
+  #  default = "sg-05637f6e2caa0bef0"
+}
+
+
 
 variable "base_acl_group" {
   type        = string
@@ -61,15 +72,15 @@ variable "subnet_cidr" {
 
 variable "subnet_ids_pri" {
   type    = list(any)
-  default = [""]
+  default = []
 }
 
 variable "subnet_ids_pub" {
   type    = list(any)
-  default = [""]
+  default = []
 }
 
-variable "prefix_name" {
+variable "name_prefix" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
   default     = "swe"

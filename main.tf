@@ -11,7 +11,15 @@ locals {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = var.allow_ssh_from
-    }, {
+    }, /*{
+    name        = "ssh-internal"
+    type        = "ingress"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+#    cidr_blocks = cidrsubnet(data.aws_vpc.swe_vpc.cidr_block, 4, 1)
+     cidr_blocks = var.cidr_block
+    },*/ {
     name        = "all-e"
     type        = "egress"
     from_port   = 0
@@ -22,16 +30,18 @@ locals {
   security_group_rules = concat(local.ssh_security_group_rule, var.security_group_rules)
   #  base_acl_group       = var.base_acl_group != null ? var.base_acl_group : data.aws_network_acls.newacl.id
   base_acl_group = var.base_acl_group != null ? var.base_acl_group : aws_network_acl.ec2acl.id
+  #  base_acl_group = var.base_acl_group != null ? var.base_acl_group : data.aws_network_acls.ec2acl
   acl_group_rule = var.allow_acl_from != "" ? [{
-    rule_number = 100
+    rule_number = 110
     egress      = true
-    protocol    = "tcp"
+    #    protocol    = "tcp"
+    protocol    = -1
     rule_action = "allow"
     cidr_block  = var.allow_acl_from
-    from_port   = 22
-    to_port     = 22
+    #    from_port   = 22
+    #    to_port     = 22
     }, {
-    rule_number = 200
+    rule_number = 110
     egress      = false
     protocol    = "tcp"
     rule_action = "allow"
@@ -42,31 +52,46 @@ locals {
   acl_group_rules = concat(local.acl_group_rule, var.acl_group_rules)
 }
 
+data "aws_vpc" "swe_vpc" {
+  id = var.vpc_id
+}
+
+output "ciders" {
+  value = data.aws_vpc.swe_vpc.cidr_block
+}
 
 resource "aws_security_group" "ec2instance" {
-  name   = "${var.prefix_name}-inst-sg-group"
+  name   = "${var.name_prefix}-inst-sg-group"
   vpc_id = var.vpc_id
 
   tags = {
-    Name = "${var.prefix_name}-inst-sg-group"
+    Name = "${var.name_prefix}-inst-sg-group"
   }
 }
+
+
 
 
 data "aws_security_group" "newsg" {
   id = aws_security_group.ec2instance.id
 }
 
-
 resource "aws_network_acl" "ec2acl" {
-  #  name   = "${var.prefix_name}-inst-acl-group"
-  vpc_id = var.vpc_id
-
+  #  name   = "${var.name_prefix}-inst-acl-group"
+  vpc_id     = var.vpc_id
+  subnet_ids = local.subnet_ids
   tags = {
-    Name = "${var.prefix_name}-inst-acl-group"
+    Name = "${var.name_prefix}-inst-acl-group"
   }
 }
 
+/*
+
+data "aws_network_acls" "ec2acl" {
+#  ids = var.defacl_id
+   vpc_id     = var.vpc_id
+}
+*/
 
 resource "aws_security_group_rule" "addSGrule" {
 
@@ -96,7 +121,7 @@ resource "aws_network_acl_rule" "addACLrule" {
 
 }
 
-resource "aws_instance" "ec2_pri_instance" {
+resource "aws_instance" "ec2_instance" {
   ami                         = var.ami_id
   instance_type               = var.instance_type
   count                       = local.sunet_len
@@ -115,7 +140,7 @@ resource "aws_instance" "ec2_pri_instance" {
   }
 
   tags = {
-    "Name"    = "${format("%s-%s-%02s", var.prefix_name, var.label, count.index + 1)}"
+    "Name"    = "${format("%s-%s-%02s", var.name_prefix, var.label, count.index + 1)}"
     "project" = "swe"
   }
 }
