@@ -18,7 +18,9 @@ aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
 
 echo SWE vpcID is $vpcid
 
-subnetid=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcid" 'Name=tag:project,Values=swe' --query 'Subnets[].[SubnetId]' --output=text)
+#subnetid=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcid" 'Name=tag:project,Values=swe' --query 'Subnets[].[SubnetId]' --output=text)
+
+subnetid=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcid"  --query 'Subnets[].[SubnetId]' --output=text)
 
 echo SWE SubnetIDs are $subnetid
 
