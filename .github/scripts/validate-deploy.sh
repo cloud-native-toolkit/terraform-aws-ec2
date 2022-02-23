@@ -6,6 +6,17 @@ export vpcid=$(terraform output -json | jq -r '."vpc_id".value')
 
 echo SWE vpcID is $vpcid
 
+REGION=$(cat terraform.tfvars | grep -E "^region" | sed "s/region=//g" | sed 's/"//g')
+
+echo "VPC_ID: ${vpcid}"
+echo "REGION: ${REGION}"
+
+aws configure set region ${REGION}
+aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+
+
+
 subnetid=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcid" 'Name=tag:project,Values=swe' --query 'Subnets[].[SubnetId]' --output=text)
 
 echo SWE SubnetIDs are $subnetid
