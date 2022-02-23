@@ -86,6 +86,93 @@ versions:
         type: string
         description: User data to provide when launching the instance.
         default: ""
+      - name: defacl_id
+        type: string
+        description: ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created.
+        default: ""
+      - name: base_acl_group
+        type: string
+        description: ID of the base ACL to use for the ec2 instance. If not provided a new ACL  will be created.
+        default: null
+      - name: access_key
+    version: v1.0.5
+  - platforms: []
+    providers:
+      - name: aws
+        source: "hashicorp/aws"
+    dependencies:
+      - id: vpcssh
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-ssh-key
+            version: ">= 1.0.0"
+      - id: vpc
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-vpc
+            version: ">= 1.0.0"
+      - id: subnets
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
+            version: ">= 1.0.0"
+      - id: kms_key
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-ibm-kms-key
+            version: ">= 0.0.1"
+        optional: true
+    variables:
+      - name: vpc_id
+        moduleRef:
+          id: vpc
+          output: vpcID
+      - name: subnet_ids_pri
+        moduleRef:
+          id: subnets
+          output: subnet_ids_pri_network
+      - name: subnet_ids_pub
+        moduleRef:
+          id: subnets
+          output: subnet_ids_pub_network
+      - name: subnet_count_private
+        moduleRef:
+          id: subnets
+          output: count
+      - name: subnet_count_public
+        moduleRef:
+          id: subnets
+          output: count
+      - name: ssh_key
+        moduleRef:
+          id: vpcssh
+          output: name
+      - name: region
+        scope: global
+      - name: tags
+        scope: module
+      - name: kms_key_crn
+        moduleRef:
+          id: kms_key
+          output: crn
+        optional: true
+      - name: base_security_group
+        scope: module
+        type: string
+        description: ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created.
+        default: null
+      - name: root_volume_size
+        scope: module
+      - name: root_volume_type
+        scope: module
+      - name: allow_ssh_from
+        type: list(any)
+        description: An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server
+        default: [0.0.0.0/0]
+      - name: allow_acl_from
+        type: string
+        description: An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server
+        default: 0.0.0.0/0
+      - name: init_script
+        type: string
+        description: User data to provide when launching the instance.
+        default: ""
       - name: base_acl_group
         type: string
         description: ID of the base ACL to use for the ec2 instance. If not provided a new ACL  will be created.
