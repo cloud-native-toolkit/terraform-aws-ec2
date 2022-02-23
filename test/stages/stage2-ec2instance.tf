@@ -15,5 +15,6 @@ module "ec2" {
   ssh_key                     = module.vpcssh.swesshkeyname
   kms_key_id                  = module.kms.key_arn
   region                      = var.region
+  #  cidr_block                 = module.vpc.cidr_block
 }
 

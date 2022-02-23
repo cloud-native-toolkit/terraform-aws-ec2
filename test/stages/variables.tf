@@ -4,6 +4,17 @@ variable "region" {
   description = "Please set the region where the resouces to be created "
 }
 
+variable "defacl_id" {
+  type        = string
+  description = "ID of the base ACL to use for the ec2 instance. If not provided a new ACL  will be created."
+  default     = ""
+}
+
+variable "cidr_block" {
+  type    = list(any)
+  default = [""]
+}
+
 ### var used by SSH Module ####start
 
 variable "private_key_file" {
@@ -39,12 +50,6 @@ variable "name" {
 variable "label" {
   default = "prd"
   type    = string
-}
-
-variable "name_prefix" {
-  type        = string
-  default     = "swe"
-  description = "name prefix"
 }
 
 
@@ -241,11 +246,18 @@ variable "secret_key" {
 
 ###var Used by SSH,VPC, module  ###start
 
+variable "name_prefix" {
+  type        = string
+  description = "Prefix to be added to the names of resources which are being provisioned"
+  default     = "swe"
+}
+
 variable "prefix_name" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
   default     = "swe"
 }
+
 
 
 ###var Used by SSH, module###end

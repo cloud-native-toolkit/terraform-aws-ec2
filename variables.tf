@@ -4,10 +4,16 @@ variable "region" {
   description = "AWS  Region to provision EC2 instance"
 }
 
+variable "cidr_block" {
+  type    = list(any)
+  default = [""]
+}
+
 variable "allow_ssh_from" {
   type        = list(any)
   description = "An IP address,  a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
   default     = ["0.0.0.0/0"]
+  #   default     = []
 }
 
 variable "allow_acl_from" {
@@ -31,11 +37,19 @@ variable "base_security_group" {
   #  default = "sg-05637f6e2caa0bef0"
 }
 
+variable "defacl_id" {
+  type        = string
+  description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
+  default     = ""
+  #  default = "sg-05637f6e2caa0bef0"
+}
+
+
+
 variable "base_acl_group" {
   type        = string
   description = "ID of the base ACL to use for the ec2 instance. If not provided a new ACL  will be created."
   default     = null
-  #  default = "acl-00ce85aac32da9dae"
 }
 
 
@@ -77,7 +91,7 @@ variable "subnet_ids_pub" {
   default = []
 }
 
-variable "prefix_name" {
+variable "name_prefix" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
   default     = "swe"
