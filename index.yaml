@@ -72,6 +72,9 @@ versions:
         default: null
       - name: root_volume_size
         scope: module
+        type: number
+        description: "Size of the root volume in gigabytes"
+        default: 10
       - name: root_volume_type
         scope: module
       - name: allow_ssh_from
