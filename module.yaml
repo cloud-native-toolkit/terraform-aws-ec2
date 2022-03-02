@@ -58,10 +58,10 @@ versions:
       scope: global
     - name: tags
       scope: module
-    - name: kms_key_crn
+    - name: kms_key_id
       moduleRef:
         id: kms_key
-        output: crn
+        output: id
       optional: true
     - name: base_security_group
       scope: module
