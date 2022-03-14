@@ -15,6 +15,12 @@ variable "cidr_block" {
   default = [""]
 }
 
+variable "resource_group_name" {
+  type    = string
+  default = "default"
+}
+
+
 ### var used by SSH Module ####start
 
 variable "private_key_file" {
