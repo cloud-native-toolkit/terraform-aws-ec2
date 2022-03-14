@@ -1,5 +1,6 @@
 module "pub_subnet" {
   source      = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets"
+  depends_on = [ module.vpc ]
   provision   = var.provision
   name_prefix = var.name_prefix
 
@@ -33,7 +34,7 @@ module "ngw" {
 
 module "priv_subnet" {
   source = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets"
-
+  depends_on = [ module.vpc ]
   provision   = var.provision
   name_prefix = var.name_prefix
 
