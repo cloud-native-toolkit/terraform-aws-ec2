@@ -1,11 +1,11 @@
 module "ec2" {
   source                      = "./module"
   vpc_id                      = module.vpc.vpc_id
-  subnet_ids_pri              = module.subnets.private_subnet_ids
-  subnet_ids_pub              = module.subnets.public_subnet_ids
+  subnet_ids_pri              = module.priv_subnet.subnet_ids
+  subnet_ids_pub              = module.pub_subnet.subnet_ids
   ami_id                      = var.ami_id
-  subnet_count_private        = module.subnets.subnet_count_private
-  subnet_count_public         = module.subnets.subnet_count_public
+  subnet_count_private        = module.priv_subnet.subnet_count
+  subnet_count_public         = module.pub_subnet.subnet_count
   instance_type               = var.instance_type
   publickey                   = var.publickey
   root_block_device_encrypted = var.root_block_device_encrypted
