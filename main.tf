@@ -28,28 +28,6 @@ locals {
     cidr_blocks = var.allow_ssh_from
   }] : []
   security_group_rules = concat(local.ssh_security_group_rule, var.security_group_rules)
-  #  base_acl_group       = var.base_acl_group != null ? var.base_acl_group : data.aws_network_acls.newacl.id
-  base_acl_group = var.base_acl_group != null ? var.base_acl_group : aws_network_acl.ec2acl.id
-  #  base_acl_group = var.base_acl_group != null ? var.base_acl_group : data.aws_network_acls.ec2acl
-  acl_group_rule = var.allow_acl_from != "" ? [{
-    rule_number = 110
-    egress      = true
-    #    protocol    = "tcp"
-    protocol    = -1
-    rule_action = "allow"
-    cidr_block  = var.allow_acl_from
-    #    from_port   = 22
-    #    to_port     = 22
-    }, {
-    rule_number = 110
-    egress      = false
-    protocol    = "tcp"
-    rule_action = "allow"
-    cidr_block  = var.allow_acl_from
-    from_port   = 22
-    to_port     = 22
-  }] : []
-  acl_group_rules = concat(local.acl_group_rule, var.acl_group_rules)
 }
 
 data "aws_vpc" "swe_vpc" {
@@ -69,29 +47,10 @@ resource "aws_security_group" "ec2instance" {
   }
 }
 
-
-
-
 data "aws_security_group" "newsg" {
   id = aws_security_group.ec2instance.id
 }
 
-resource "aws_network_acl" "ec2acl" {
-  #  name   = "${var.name_prefix}-inst-acl-group"
-  vpc_id     = var.vpc_id
-  subnet_ids = local.subnet_ids
-  tags = {
-    Name = "${var.name_prefix}-inst-acl-group"
-  }
-}
-
-/*
-
-data "aws_network_acls" "ec2acl" {
-#  ids = var.defacl_id
-   vpc_id     = var.vpc_id
-}
-*/
 
 resource "aws_security_group_rule" "addSGrule" {
 
@@ -102,21 +61,6 @@ resource "aws_security_group_rule" "addSGrule" {
   to_port           = lookup(local.security_group_rules[count.index], "to_port", null)
   protocol          = lookup(local.security_group_rules[count.index], "protocol", null)
   cidr_blocks       = lookup(local.security_group_rules[count.index], "cidr_blocks", null)
-  #  ip_version        = lookup(local.security_group_rules[count.index], "ip_version", null)
-
-}
-
-resource "aws_network_acl_rule" "addACLrule" {
-
-  count          = length(local.acl_group_rules)
-  network_acl_id = local.base_acl_group
-  rule_number    = local.acl_group_rules[count.index]["rule_number"]
-  egress         = lookup(local.acl_group_rules[count.index], "egress", null)
-  protocol       = lookup(local.acl_group_rules[count.index], "protocol", null)
-  rule_action    = lookup(local.acl_group_rules[count.index], "rule_action", null)
-  cidr_block     = lookup(local.acl_group_rules[count.index], "cidr_block", null)
-  from_port      = lookup(local.acl_group_rules[count.index], "from_port", null)
-  to_port        = lookup(local.acl_group_rules[count.index], "to_port", null)
   #  ip_version        = lookup(local.security_group_rules[count.index], "ip_version", null)
 
 }
@@ -144,5 +88,4 @@ resource "aws_instance" "ec2_instance" {
     "project" = "swe"
   }
 }
-
 
