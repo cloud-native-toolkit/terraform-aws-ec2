@@ -1,71 +1,62 @@
 name: "aws-ec2-insatnce"
 type: terraform
-description: Module to provision ec2 on aws
+description: "Module to provision ec2 on aws"
 tags:
     - infrastructure
-    - ec2
-    - virtual instance
-    - vpc
+    - networking
 versions:
 - platforms: []
   providers:
     - name: aws
       source: "hashicorp/aws"
   dependencies:
-    - id: vpcssh
-      refs:
-        - source: github.com/cloud-native-toolkit/terraform-aws-ssh-key
-          version: ">= 1.0.0"
-    - id: vpc
+    - id: aws-vpc
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-vpc
           version: ">= 1.0.0"
-    - id: subnets
+    - id: public-subnets
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
           version: ">= 1.0.0"
-    - id: kms_key
+    - id: private-subnets
+      refs:
+        - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
+          version: ">= 1.0.0"
+    - id: aws-ssh-key
+      refs:
+        - source: github.com/cloud-native-toolkit/terraform-aws-ssh-key
+          version: ">= 1.0.0"
+    - id: aws-kms
       refs:
         - source: github.com/cloud-native-toolkit/terraform-ibm-kms-key
           version: ">= 0.0.1"
-      optional: true
   variables:
     - name: vpc_id
       moduleRef:
-        id: vpc
-        output: vpcID
+        id: aws-vpc
+        output: vpc_id
     - name: subnet_ids_pri
       moduleRef:
-        id: subnets
-        output: subnet_ids_pri_network
-    - name: subnet_ids_pub
-      moduleRef:
-        id: subnets
-        output: subnet_ids_pub_network
+        id: private-subnets
+        output: ids
     - name: subnet_count_private
       moduleRef:
-        id: subnets
-        output: count
+        id: subnet_ids_pri
+        output: count    
+    - name: subnet_ids_pub
+      moduleRef:
+        id: public-subnets
+        output: ids
     - name: subnet_count_public
       moduleRef:
-        id: subnets
+        id: public-subnets
         output: count
     - name: ssh_key
       moduleRef:
-        id: vpcssh
-        output: name
-    - name: region
-      scope: global
-    - name: tags
-      scope: module
+        id: aws-ssh-key
+        output: swesshkeyname
     - name: kms_key_id
       moduleRef:
-        id: kms_key
-        output: id
+        id: aws-kms
+        output: key_arn
       optional: true
-    - name: base_security_group
-      scope: module
-    - name: root_volume_size
-      scope: module
-    - name: root_volume_type
-      scope: module
