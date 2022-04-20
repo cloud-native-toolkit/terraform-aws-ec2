@@ -1,11 +1,229 @@
 id: github.com/cloud-native-toolkit/terraform-aws-ec2
-name: aws-ec2-insatnce
+name: aws-ec2-instance
 type: terraform
 description: Module to provision ec2 on aws
 tags:
   - infrastructure
   - networking
 versions:
+  - platforms: []
+    providers:
+      - name: aws
+        source: hashicorp/aws
+    dependencies:
+      - id: aws-vpc
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-vpc
+            version: '>= 1.0.0'
+      - id: public-subnets
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
+            version: '>= 1.0.0'
+      - id: private-subnets
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
+            version: '>= 1.0.0'
+      - id: aws-ssh-key
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-ssh-key
+            version: '>= 1.0.0'
+      - id: aws-kms
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-aws-kms
+            version: '>= 0.0.1'
+    variables:
+      - name: allow_ssh_from
+        type: list(any)
+        description: >-
+          An IP address, a CIDR block, or a single security group identifier to
+          allow incoming SSH connection to the virtual server
+        default: '["0.0.0.0/0"]'
+      - name: allow_acl_from
+        type: string
+        description: >-
+          An IP address, a CIDR block, or a single security group identifier to
+          allow incoming SSH connection to the virtual server
+        default: 0.0.0.0/0
+      - name: init_script
+        type: string
+        default: ''
+        description: User data to provide when launching the instance.
+      - name: base_security_group
+        type: string
+        description: >-
+          ID of the base security group(SG) to use for the ec2 instance. If not
+          provided a new SG  will be created.
+        default: 'null'
+      - name: defacl_id
+        type: string
+        description: >-
+          ID of the base security group(SG) to use for the ec2 instance. If not
+          provided a new SG  will be created.
+        default: ''
+      - name: base_acl_group
+        type: string
+        description: >-
+          ID of the base ACL to use for the ec2 instance. If not provided a new
+          ACL  will be created.
+        default: 'null'
+      - name: access_key
+        type: string
+        default: ''
+      - name: secret_key
+        type: string
+        default: ''
+      - name: publickey
+        type: string
+        default: ''
+        description: EC2 Instance Public Key
+      - name: vpc_cidr
+        default: '"10.20.0.0/16"'
+      - name: subnet_cidr
+        type: list(any)
+        default: '["10.20.1.0/24", "10.20.2.0/24"]'
+      - name: subnet_ids_pri
+        type: list(any)
+        default: '[]'
+        moduleRef:
+          id: private-subnets
+          output: ids
+      - name: subnet_ids_pub
+        type: list(any)
+        default: '[]'
+        moduleRef:
+          id: public-subnets
+          output: ids
+      - name: name_prefix
+        type: string
+        description: >-
+          Prefix to be added to the names of resources which are being
+          provisioned
+        default: swe
+      - name: kms_key_id
+        type: string
+        description: KMS ID
+        default: ''
+        moduleRef:
+          id: aws-kms
+          output: key_arn
+        optional: true
+      - name: pri_instance_monitoring
+        type: bool
+        default: false
+        description: Enable  EC2 private instance advance monitoring
+      - name: pub_instance_monitoring
+        type: bool
+        default: true
+        description: Enable EC2 public instance advance monitoring
+      - name: azs
+        type: list(any)
+        default: '["us-west-1a", "us-west-1c"]'
+      - name: ssh_key
+        type: string
+        default: ''
+        description: AWS EC2 Instance Public Key
+        moduleRef:
+          id: aws-ssh-key
+          output: swesshkeyname
+      - name: ami_id
+        type: string
+        description: AMI ID for bastion host
+        default: ami-03fa4afc89e4a8a09
+      - name: subnet_count_private
+        type: number
+        default: '0'
+        moduleRef:
+          id: subnet_ids_pri
+          output: count
+      - name: subnet_count_public
+        type: number
+        default: '0'
+        moduleRef:
+          id: public-subnets
+          output: count
+      - name: public_key
+        type: string
+        default: ''
+      - name: private_key
+        type: string
+        default: ''
+      - name: rsa_bits
+        type: number
+        default: '4096'
+      - name: instance_type
+        type: string
+        description: EC2 Instance Type
+        default: t3.large
+      - name: vpc_id
+        type: string
+        description: The id of the existing VPC instance
+        default: ''
+        moduleRef:
+          id: aws-vpc
+          output: vpc_id
+      - name: label
+        type: string
+        description: The label for the server instance
+        default: server
+      - name: root_volume_type
+        type: string
+        description: Type of root volume. Can be standard, gp2 or io1
+        default: gp2
+      - name: root_volume_size
+        type: number
+        description: Size of the root volume in gigabytes
+        default: '10'
+      - name: root_block_device_encrypted
+        type: bool
+        default: true
+        description: Whether to encrypt the root block device
+      - name: publicIP
+        type: bool
+        default: false
+        description: Whether to attach a public IP to EC2 instance
+      - name: cidr_blocks
+        type: list(any)
+        default: '["0.0.0.0/0"]'
+        description: SG CIDR
+      - name: security_groups
+        description: A list of Security Group IDs to associate with EC2 instance.
+        type: list(string)
+        default: []
+      - name: security_group_rules
+        type: |-
+          list(object({
+              name        = string,
+              type        = string,
+              protocol    = string,
+              from_port   = number,
+              to_port     = number,
+              cidr_blocks = optional(string),
+              ip_version  = optional(string),
+            }))
+        description: >-
+          List of security group rules to set on the bastion security group in
+          addition to the SSH rules
+        default: '[]'
+      - name: acl_group_rules
+        type: |-
+          list(object({
+              rule_number = number,
+              egress      = bool,
+              protocol    = string,
+              rule_action = string,
+              cidr_block  = optional(string),
+              from_port   = number,
+              to_port     = number,
+            }))
+        description: >-
+          List of security group rules to set on the bastion security group in
+          addition to the SSH rules
+        default: '[]'
+    version: v1.1.0
+    outputs:
+      - name: sec_id
+      - name: instance_public_ip
+        description: The public IP address of the instance.
   - platforms: []
     providers:
       - name: aws
