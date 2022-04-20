@@ -1,4 +1,4 @@
-name: "aws-ec2-insatnce"
+name: "aws-ec2-instance"
 type: terraform
 description: "Module to provision ec2 on aws"
 tags:
