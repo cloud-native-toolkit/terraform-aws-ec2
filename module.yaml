@@ -28,7 +28,7 @@ versions:
           version: ">= 1.0.0"
     - id: aws-kms
       refs:
-        - source: github.com/cloud-native-toolkit/terraform-ibm-kms-key
+        - source: github.com/cloud-native-toolkit/terraform-aws-kms
           version: ">= 0.0.1"
   variables:
     - name: vpc_id
