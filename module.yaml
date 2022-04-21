@@ -41,7 +41,7 @@ versions:
         output: ids
     - name: subnet_count_private
       moduleRef:
-        id: subnet_ids_pri
+        id: private-subnets
         output: count    
     - name: subnet_ids_pub
       moduleRef:
