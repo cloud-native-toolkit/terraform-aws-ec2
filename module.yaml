@@ -18,10 +18,12 @@ versions:
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
           version: ">= 1.0.0"
+      optional: true
     - id: private-subnets
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
           version: ">= 1.0.0"
+      optional: true
     - id: aws-ssh-key
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-ssh-key
