@@ -1,6 +1,6 @@
 variable "region" {
   type        = string
-  default     = ""
+  default     = "ap-south-1"
   description = "Please set the region where the resouces to be created "
 }
 
@@ -94,6 +94,8 @@ variable "vpc_id" {
 ###var used by Subenet Module ###start
 
 
+/*
+- single SN approach
 variable "private_subnet_cidr" {
   type        = list(string)
   description = "(Required) The CIDR block for the private subnet."
@@ -101,6 +103,15 @@ variable "private_subnet_cidr" {
 }
 
 variable "public_subnet_cidr" {
+  type        = list(string)
+  description = "(Required) The CIDR block for the public subnet."
+  default     = ["10.0.0.0/20"]
+}
+
+*/
+
+#- single SN approach
+variable "subnets_cidr" {
   type        = list(string)
   description = "(Required) The CIDR block for the public subnet."
   default     = ["10.0.0.0/20"]
@@ -141,6 +152,8 @@ variable "private_subnet_tags" {
 
 ###var used by EC2 module ###start
 
+/*
+- single SN approach
 variable "subnet_ids_pri" {
   type    = list(any)
   default = []
@@ -149,6 +162,20 @@ variable "subnet_ids_pri" {
 variable "subnet_ids_pub" {
   type    = list(any)
   default = []
+}
+
+*/
+
+#- single SN approach
+
+variable "subnets_ids" {
+  type    = list(string)
+  default = []
+}
+
+variable "subnets_count" {
+  type    = number
+  default = 0
 }
 
 variable "ami_id" {

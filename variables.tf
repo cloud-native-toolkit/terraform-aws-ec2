@@ -64,11 +64,21 @@ variable "vpc_cidr" {
   default = "10.20.0.0/16"
 }
 
+
 variable "subnet_cidr" {
   type    = list(any)
   default = ["10.20.1.0/24", "10.20.2.0/24"]
 }
 
+
+variable "subnets_cidr" {
+  type    = list(any)
+  default = ["10.20.1.0/24", "10.20.2.0/24"]
+}
+
+/*
+
+- single SN approach
 
 variable "subnet_ids_pri" {
   type    = list(any)
@@ -77,6 +87,14 @@ variable "subnet_ids_pri" {
 
 variable "subnet_ids_pub" {
   type    = list(any)
+  default = []
+}
+
+*/
+#- single SN approach
+
+variable "subnets_ids" {
+  type    = list(string)
   default = []
 }
 
@@ -124,12 +142,22 @@ variable "ami_id" {
   #  default = "ami-0573b70afecda915d"
 }
 
+/*
+#- single SN approach
+
 variable "subnet_count_private" {
   type    = number
   default = 0
 }
 
 variable "subnet_count_public" {
+  type    = number
+  default = 0
+}
+
+*/
+
+variable "subnets_count" {
   type    = number
   default = 0
 }
