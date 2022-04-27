@@ -14,7 +14,7 @@ versions:
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-vpc
           version: ">= 1.0.0"
-    - id: aws-vpc-subnet
+    - id: aws-vpc-subnets
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
           version: ">= 1.0.0"
@@ -34,7 +34,7 @@ versions:
         output: vpc_id
     - name: subnets_ids
       moduleRef:
-        id: aws-vpc-subnet
+        id: aws-vpc-subnets
         output: ids
     - name: ssh_key
       moduleRef:
