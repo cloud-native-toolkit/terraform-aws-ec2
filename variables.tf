@@ -1,4 +1,3 @@
-
 variable "allow_ssh_from" {
   type        = list(any)
   description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
