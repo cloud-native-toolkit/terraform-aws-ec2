@@ -110,12 +110,6 @@ variable "public_subnet_cidr" {
 
 */
 
-#- single SN approach
-variable "subnets_cidr" {
-  type        = list(string)
-  description = "(Required) The CIDR block for the public subnet."
-  default     = ["10.0.0.0/20"]
-}
 
 variable "availability_zones" {
   description = "List of availability zone ids"
@@ -305,10 +299,6 @@ variable "vpc_cidr" {
   default = "10.20.0.0/16"
 }
 
-variable "subnet_cidr" {
-  type    = list(any)
-  default = ["10.20.1.0/24", "10.20.2.0/24"]
-}
 
 variable "cidr_blocks" {
   type        = list(any)
