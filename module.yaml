@@ -36,10 +36,6 @@ versions:
       moduleRef:
         id: aws-vpc-subnet
         output: ids
-    - name: sunet_len
-      moduleRef:
-        id: aws-vpc-subnet
-        output: count
     - name: ssh_key
       moduleRef:
         id: aws-ssh-key
