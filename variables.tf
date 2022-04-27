@@ -64,7 +64,7 @@ variable "vpc_cidr" {
   default = "10.20.0.0/16"
 }
 
-
+/*
 variable "subnet_cidr" {
   type    = list(any)
   default = ["10.20.1.0/24", "10.20.2.0/24"]
@@ -75,8 +75,6 @@ variable "subnets_cidr" {
   type    = list(any)
   default = ["10.20.1.0/24", "10.20.2.0/24"]
 }
-
-/*
 
 - single SN approach
 
@@ -122,11 +120,13 @@ variable "pub_instance_monitoring" {
   description = "Enable EC2 public instance advance monitoring"
 }
 
-
+/*
 variable "azs" {
   type    = list(any)
   default = ["us-west-1a", "us-west-1c"]
 }
+
+*/
 
 variable "ssh_key" {
   type    = string
