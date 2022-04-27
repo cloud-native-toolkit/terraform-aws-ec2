@@ -14,12 +14,7 @@ versions:
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-vpc
           version: ">= 1.0.0"
-    - id: public-subnets
-      refs:
-        - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
-          version: ">= 1.0.0"
-      optional: true
-    - id: private-subnets
+    - id: aws-vpc-subnet
       refs:
         - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
           version: ">= 1.0.0"
@@ -37,22 +32,10 @@ versions:
       moduleRef:
         id: aws-vpc
         output: vpc_id
-    - name: subnet_ids_pri
+    - name: subnets_ids
       moduleRef:
-        id: private-subnets
+        id: aws-vpc-subnet
         output: ids
-    - name: subnet_count_private
-      moduleRef:
-        id: private-subnets
-        output: count    
-    - name: subnet_ids_pub
-      moduleRef:
-        id: public-subnets
-        output: ids
-    - name: subnet_count_public
-      moduleRef:
-        id: public-subnets
-        output: count
     - name: ssh_key
       moduleRef:
         id: aws-ssh-key
