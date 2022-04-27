@@ -32,7 +32,7 @@ versions:
       moduleRef:
         id: aws-vpc
         output: vpc_id
-    - name: subnet_ids
+    - name: subnets_ids
       moduleRef:
         id: aws-vpc-subnet
         output: ids
@@ -49,4 +49,3 @@ versions:
         id: aws-kms
         output: key_arn
       optional: true
-      
